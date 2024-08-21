@@ -1541,9 +1541,9 @@ class Verilog_tools:
         # print("[INFO] command: ",self.list_all[test_case][0]["sim_opts"] + " +ntb_random_seed="+str(seed) + " +UVM_VERBOSITY=" + self.uvm_verbosity)
         print("[INFO] command: "," ../../build/" + self.list_all[test_case][1] +"/simv " +  self.list_all[test_case][0]["sim_opts"] + " +ntb_random_seed=" +str(seed) + " +UVM_VERBOSITY=" + self.uvm_verbosity)
         if self.repeat_num != 1:
-            os.system("cd " + "../work/"+ test_case + "_" + str(seed) + " && " + " ../../build/" + self.list_all[test_case][1] +"/simv " +  self.list_all[test_case][0]["sim_opts"] + " +ntb_random_seed=" +str(seed) + " +UVM_VERBOSITY=" + self.uvm_verbosity + "> tools.log")
+            os.system("cd " + "../work/"+ test_case + "_" + str(seed) + r" && ${POX} " + " ../../build/" + self.list_all[test_case][1] +"/simv " +  self.list_all[test_case][0]["sim_opts"] + " +ntb_random_seed=" +str(seed) + " +UVM_VERBOSITY=" + self.uvm_verbosity + "> tools.log")
         else:
-            os.system("cd " + "../work/"+ test_case + "_" + str(seed) + " && " + " ../../build/" + self.list_all[test_case][1] +"/simv " +  self.list_all[test_case][0]["sim_opts"] + " +ntb_random_seed=" +str(seed) + " +UVM_VERBOSITY=" + self.uvm_verbosity + "| tee tools.log")
+            os.system("cd " + "../work/"+ test_case + "_" + str(seed) + r" && ${POX}" + " ../../build/" + self.list_all[test_case][1] +"/simv " +  self.list_all[test_case][0]["sim_opts"] + " +ntb_random_seed=" +str(seed) + " +UVM_VERBOSITY=" + self.uvm_verbosity + "| tee tools.log")
         
         if self.del_pass is False:
             fp = open("../work/"+ test_case + "_" + str(seed) + "/makefile","w")
@@ -1877,7 +1877,7 @@ class Verilog_tools:
             fp = open("../work/lint/makefile", "w")
             fp.write(re.sub("my",self.filename, self.makefile["lint"]))
             fp.close()
-        os.system("cd ../work/lint; sg_shell -tcl ../../sim_ctrl/rtl_qc/spy.tcl | tee lint.log")
+        os.system("cd ../work/lint; ${POX} sg_shell -tcl ../../sim_ctrl/rtl_qc/spy.tcl | tee lint.log")
 
     def dc(self):
         if not os.path.isdir( "../work/"):
@@ -1895,7 +1895,7 @@ class Verilog_tools:
             fp = open("../work/syn/makefile", "w")
             fp.write(re.sub("my",self.filename, self.makefile["syn"]))
             fp.close()
-        os.system("cd ../work/syn; dc_shell -f ../../sim_ctrl/syn/dc.tcl | tee lint.log")
+        os.system("cd ../work/syn; ${POX} dc_shell -f ../../sim_ctrl/syn/dc.tcl | tee lint.log")
         
     def lint_gui(self):
         if not os.path.isdir( "../work/lint"):

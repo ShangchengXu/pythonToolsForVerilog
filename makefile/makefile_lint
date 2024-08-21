@@ -4,4 +4,4 @@ CLEAN:
 	rm -rf  ./verdiLog  ./dff ./csrc *.daidir *log *.vpd *.vdb simv* *.key *race.out* *.rc *.fsdb *.vpd *.log *.conf *.dat *.conf
 
 lint_gui:
-	spyglass -project ${TOP}.prj &
+	${POX} spyglass -project ${TOP}.prj &
